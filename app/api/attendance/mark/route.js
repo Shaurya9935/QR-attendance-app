@@ -5,8 +5,8 @@ import Student from "@/models/student.js";
 import Attendance from "@/models/attendance.js";
 import { eventBuildFeatureUsage } from "next/dist/telemetry/events";
 
-export async function POST(req){
-    try{
+export async function POST(req) {
+    try {
         await connectDB();
 
         const { enrollmentNumber, markedBy } = await req.json();
@@ -15,10 +15,10 @@ export async function POST(req){
             enrollmentNumber
         })
 
-        if(!student){
+        if (!student) {
             return NextResponse.json(
-                {message: "Student not found"},
-                {status: 404}
+                { message: "Student not found" },
+                { status: 404 }
             );
         }
 
@@ -29,29 +29,32 @@ export async function POST(req){
             eventDate: today
         })
 
-        if(alreadyMarked) { 
+        if (alreadyMarked) {
             NextResponse.json(
-                {message: "Attendance already Marked"},
-                {status: 400}
+                { message: "Attendance already Marked" },
+                { status: 400 }
             );
         }
 
+        console.log(student)
         await Attendance.create({
             enrollmentNumber,
+            name: student.name,
+            branch: student.branch,
             markedBy,
             eventDate: today,
         });
 
         return NextResponse.json({
-            success: true, 
+            success: true,
             studentName: student.name
         })
-    }catch(error){
+    } catch (error) {
         console.log(error);
 
         return NextResponse.json(
-            {message: "Server Error"},
-            {status: 500}
+            { message: "Server Error" },
+            { status: 500 }
         )
     }
 

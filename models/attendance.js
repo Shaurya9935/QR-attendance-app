@@ -7,6 +7,16 @@ const attendanceSchema = new mongoose.Schema(
       required: true,
     },
 
+    name: {
+      type: String,
+      required: true,
+    },
+
+    branch: {
+      type: String,
+      required: true,
+    },
+
     markedBy: {
       type: String,
       required: true,

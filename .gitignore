@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+qrcodes
 
 # debug
 npm-debug.log*
